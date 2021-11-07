@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ScoutCon</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      @import "node_modules/ol/ol.css";
+      @import "style.css"; 
+    </style>
+  </head>
+  <body>
+    <button onclick="document.getElementById('tools').style.display='block'" class="w3-button w3-black toggleMapSettings"><i style="font-size:24px" class="fa">&#xf013;</i></button>
+
+    <div id="tools" class="w3-modal">
+      <div class="w3-modal-content w3-card-4 w3-animate-zoom">
+       <header class="w3-container w3-blue"> 
+        <span onclick="document.getElementById('tools').style.display='none'" 
+        class="w3-button w3-blue w3-xlarge w3-display-topright">&times;</span>
+        <h2>Værktøjer</h2>
+       </header>
+     
+       <div class="w3-bar w3-border-bottom"> <!-- Tabs (headlines)-->
+        <button class="tablink w3-bar-item w3-button" onclick="tab(event, 'Baggrundskort')"><i class="fa fa-globe" style="font-size:24px"></i>
+        </button>
+        <button class="tablink w3-bar-item w3-button" onclick="tab(event, 'kortData')"><i class="fa fa-map-marker" style="font-size:24px"></i>
+        </button>
+        <button class="tablink w3-bar-item w3-button" onclick="tab(event, 'vejledning')"><i class="fa fa-info-circle" style="font-size:24px"></i>
+        </button>
+        <button class="tablink w3-bar-item w3-button" onclick="tab(event, 'links')"><i class="fa fa-link" style="font-size:24px"></i>
+        </button>
+       </div>
+     
+       <div id="Baggrundskort" class="w3-container w3-tab"> <!-- Tab background maps-->
+        <h2>Baggrundskort</h2>
+        <p>
+          <input class="w3-radio baseMapChoise" type="radio" name="baggrundskort" value="OSMStandard" checked>
+          <label>Openstreetmaps standard</label>
+        </p>
+        <p>
+          <input class="w3-radio baseMapChoise" type="radio" name="baggrundskort" value="OSMHumanitarian">
+          <label>Openstreetmaps humanitarian</label>
+        </p>
+        <p>
+          <input class="w3-radio baseMapChoise" type="radio" name="baggrundskort" value="StamenTerrain">
+          <label>Stamen terræn</label>
+        </p>
+        <p>
+          <input class="w3-radio baseMapChoise" type="radio" name="baggrundskort" value="OpenCycleMap">
+          <label>Open Cycle Map</label>
+        </p>
+        <p>
+          <input class="w3-radio baseMapChoise" type="radio" name="baggrundskort" value="outdoors">
+          <label>Outdoors</label>
+        </p>
+       </div> <!-- /Tab background maps-->
+     
+       <div id="kortData" class="w3-container w3-tab"> <!-- Tab map data -->
+        <h2>Data på kortet</h2>
+       </div> <!-- /Tab map data -->
+
+       <div id="links" class="w3-container w3-tab"> <!-- Tab links -->
+        <h2>Links</h2>
+          <p>Her har vi samlet nogle links der kan være gode når man planlægger et spejderløb - mangler der nogle, så send en mail til <a href="mailto:taisz@svogerslevspejderne.dk">taisz@svogerslevspejderne.dk</a>.</p>
+      
+          <input class="w3-input w3-border w3-padding" type="text" placeholder="Søg evt. efter et link i listen" id="linksInput" onkeyup="filterFunction()">
+      
+          <table class="w3-table-all w3-margin-top" id="linksTable">
+            <tr>
+              <th style="width:60%;">Type</th>
+              <th style="width:40%;">Link</th>
+            </tr>
+            <tr>
+              <td>Vejrudsigt</td>
+              <td><a href="https://www.yr.no/kart/#lat=55.70016&lon=11.58162&zoom=7&laga=vind&proj=3575">YR</a></td>
+            </tr>
+            <tr>
+              <td>Vejrudsigt</td>
+              <td><a href="https://vejr.tv2.dk/badevandstemperatur">TV2</a></td>
+            </tr>
+            <tr>
+              <td>Vejrudsigt</td>
+              <td><a href="https://www.dmi.dk/">DMI</a></td>
+            </tr>
+            <tr>
+              <td>Vejrudsigt</td>
+              <td><a href="http://ifm.fcoo.dk/index.html#domain=denmark&zoom=8.25&lat=55.283&lon=11.414&layer=FCOO%20Standard&overlays=Short%20range%20forecasts.wind%252CShort%20range%20forecasts.current&level=0">FCOO</a></td>
+            </tr>
+            <tr>
+              <td>Kort</td>
+              <td><a href="https://webgis.fesgis.dk//NetGISRuntime/basis/index.jsp?custid=261">Søkort og luftfoto</a></td>
+            </tr>
+            <tr>
+              <td>Kort</td>
+              <td><a href="https://tilsos.krak.dk/#map=7.67/55.561/12.014">Krak søkort</a></td>
+            </tr>
+            <tr>
+              <td>Kort</td>
+              <td><a href="https://www.google.com/maps/@55.4914203,11.8550629,162121m/data=!3m1!1e3">Google Maps</a></td>
+            </tr>
+            <tr>
+              <td>Kort</td>
+              <td><a href="https://www.openstreetmap.org/#map=9/55.5659/11.6840">Openstreet Map</a></td>
+            </tr>
+            <tr>
+              <td>Kort</td>
+              <td><a href="https://skraafoto.kortforsyningen.dk/oblivisionjs/index.aspx?project=Denmark">Skråfoto</a></td>
+            </tr>
+            <tr>
+              <td>Kort</td>
+              <td><a href="https://kms.maps.arcgis.com/apps/webappviewer/index.html?id=5bd97e15c7d548b99640e28662e58a22">Fredningsbælter</a></td>
+            </tr>
+            <tr>
+              <td>Kort</td>
+              <td><a href="https://sdfekort.dk">SDFE kort</a></td>
+            </tr>
+          </table>
+        
+       </div> <!-- /Tab links -->
+     
+       <div id="vejledning" class="w3-container w3-tab"> <!-- Vejledning -->
+        <h2>Vejledning</h2>
+        
+        <div class="w3-container w3-content w3-padding-32"> <!-- Indledning-->
+          <h1>ScoutCon</h1>
+          <p class="w3-opacity"><i>Et værktøj til planlægning og gennemføresel af spejderløb</i></p>
+          <p class="w3-justify">ScoutCon er et værktøj hvor man kan samarbejde om planlægningen og gennemførelsen af spejderløb. Formålet er at undestøtte forberedelserne, så det bl.a. er nemt at se hvor hvad skal være, hvem der har hvilet ansvar og hvor langt klargøringen er nået. Undervejs i løbet kan man se hvor spejderpatruljerne er - også selv om de er faret vildt.</p>
+
+          <div class="w3-row-padding w3-padding-32 w3-mobile">
+            <div class="w3-third">
+              <div class="w3-card-4">
+                <header class="w3-container w3-green">
+                  <h3>Planlægning</h3>
+                </header>
+                  <p class="w3-padding-small">Planlægningen tager udgangspunkt i et kort - hvor man sammen eller bag hver sin skærm - kan markere steder hvor der skal være fx poster, ruter, lejer eller mål.</p>
+              </div>
+            </div>
+            <div class="w3-third">
+              <div class="w3-card-4">
+                <header class="w3-container w3-green">
+                  <h3>Gennemførelse</h3>
+                </header>
+                  <p class="w3-padding-small">Hver spejderpatrujle udstyres med en ScoutCon tracker - en GPS sporingshenhed der uden internet kan sende sin position så man kan se hvor hvem er i tæt på realtid.</p>
+              </div>
+            </div>
+            <div class="w3-third">
+              <div class="w3-card-4">
+                <header class="w3-container w3-green">
+                  <h3>Overblik</h3>
+                </header>
+                  <p class="w3-padding-small">Baseret på hvad man har lagt ind i kortet, og data fra trackerne, kan man se forskellige oversigte - fx hvem der har gået hvor langt, hvilke poster der er klar til at modtage patruljer eller hvem der hvilke patruljer der har afviget mest fra ruten.</p>
+              </div>
+            </div>
+          </div>
+          <h1>Kontakt</h1>
+        <p class="w3-opacity"><i>Vi er blot spejdere som du - så tøv ikke med at række ud!</i></p>
+        <div class="w3-row">
+          <div class="w3-col w3-large w3-margin-bottom">
+            <i class="fa fa-map-marker" style="width:30px"></i> KFUM spejderne i Roskilde og Svogerslev<br>
+            <i class="fa fa-phone" style="width:30px"></i> Tais: 2927 0429 | Bo: xxxx xxxx<br>
+            <i class="fa fa-envelope" style="width:30px"> </i> Tais: taisz@svogerslevspejderne.dk | Bo: xxxx xxxx<br>
+          </div>
+        </div>
+        </div> <!-- /Indledning-->
+       </div> <!-- /Vejledning -->
+               
+        <div class="w3-container w3-light-grey w3-padding">
+          <button class="w3-button w3-right w3-white w3-border" 
+          onclick="document.getElementById('tools').style.display='none'">Luk</button>
+        </div>
+      </div>
+    </div> <!-- /modal -->
+
+    <div id="map"></div>
+    <script src="./main.js" type="module"></script>
+    <script>
+      // change tabs in tools
+      document.getElementsByClassName("tablink")[0].click();
+      
+      function tab(evt, tabName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("w3-tab");
+        for (i = 0; i < x.length; i++) {
+          x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+          tablinks[i].classList.remove("w3-light-grey");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.classList.add("w3-light-grey");
+      }
+    </script>
+    <script>
+      // Filter links
+      function filterFunction() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("linksInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("linksTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[1];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
