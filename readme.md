@@ -1,18 +1,6 @@
-# OpenLayers + Parcel
+ScoutCon
+Et værktøj til planlægning og gennemføresel af spejderløb
 
-This example demonstrates how the `ol` package can be used with Parcel.
+ScoutCon er et værktøj hvor man kan samarbejde om planlægningen og gennemførelsen af spejderløb. Formålet er at undestøtte forberedelserne, så det bl.a. er nemt at se hvor hvad skal være, hvem der har hvilet ansvar og hvor langt klargøringen er nået. Undervejs i løbet kan man se hvor spejderpatruljerne er - også selv om de er faret vildt.
 
-To get started, run the following (requires Node 12+):
-
-    npx create-ol-app my-app --template parcel
-
-Then change into your new `my-app` directory and start a development server (available at http://localhost:1234):
-
-    cd my-app
-    npm start
-
-To generate a build ready for production:
-
-    npm run build
-
-Then deploy the contents of the `dist` directory to your server.
+Teknisk består ScoutCon af en NPM app bygget på openlayers, geojson datalagring og sporingsenheder der sender via LoRaWAN til en gateway der koresponderer med webserveren.

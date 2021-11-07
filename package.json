@@ -1,7 +1,7 @@
 {
-  "name": "test2",
+  "name": "scoutcon",
   "version": "1.0.0",
-  "description": "Example using OpenLayers with Parcel",
+  "description": "Planlægning og ledelse af spejderløb",
   "scripts": {
     "start": "parcel serve index.html",
     "build": "parcel build --public-url . index.html"
