@@ -1,6 +1,6 @@
 // Import modules
 // ==============
-import {Map, Tile, View} from 'ol';
+import {Map, Overlay, Tile, View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import Stamen from 'ol/source/Stamen';
@@ -14,6 +14,7 @@ import Point from 'ol/geom/Point';
 import {circular} from 'ol/geom/Polygon';
 import Control from 'ol/control/Control';
 import Circle from 'ol/geom/Circle';
+import { getKey } from 'ol/tilecoord';
 
 // Set styling constants
 // =====================
@@ -198,10 +199,79 @@ for (let i = 1; i < 4; i++) { // set i to amount of trackers minus 1
     visible: true,
     title: 'trackerLayer'
   })
-
-
 map.addLayer(trackerLayer);
 }
+
+// Vector features popups
+const overlayContainerElement = document.querySelector('.overlay-container');
+const overlaylayer = new Overlay({
+  element: overlayContainerElement
+})
+map.addOverlay(overlaylayer);
+
+const overlayFeatuerPostnavn = document.getElementById('feature-postnavn');
+const overlayFeatuerPoINavn = document.getElementById('feature-poinavn');
+const overlayFeatuerRuteNavn = document.getElementById('feature-rutenavn');
+const overlayFeatuerPatruljer = document.getElementById('feature-patruljer');
+const overlayFeatuerPatruljeNavn = document.getElementById('feature-patruljenavn');
+const overlayFeauterTrackerID = document.getElementById('feature-trackerid');
+
+map.on('click', function(e){
+  overlaylayer.setPosition(undefined); // clear setuposition, so that we can exit popup if no features are selected
+  map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
+
+    // clear content for all containers
+    overlayFeatuerPostnavn.innerHTML = '';
+    overlayFeatuerPoINavn.innerHTML = '';
+    overlayFeatuerRuteNavn.innerHTML = '';
+    overlayFeatuerPatruljer.innerHTML = '';
+    overlayFeatuerPatruljeNavn.innerHTML = '';
+    overlayFeauterTrackerID.innerHTML = '';
+
+    // catch feature values
+    let clickedCoordinate = e.coordinate;
+    let clickedFeaturePostnavn = feature.get('Postnavn');
+    let clickedFeaturePoINavn = feature.get('PoI Navn');
+    let clickedFeatureRuteNavn = feature.get('Rutenavn');
+    let clickedFeaturePatruljer = feature.get('Patruljer');
+    let clickedFeaturePatruljeNavn = feature.get('Patruljenavn');
+    let clickedFeatureTrackerID = feature.get('TrackerID');
+
+    overlaylayer.setPosition(clickedCoordinate);
+
+    // reload containers if they have a relevant value
+   if (typeof clickedFeaturePostnavn === 'undefined') {
+    } else {
+      overlayFeatuerPostnavn.innerHTML = 'Post: ' + clickedFeaturePostnavn;
+    }    
+
+    if (typeof clickedFeaturePoINavn === 'undefined') {
+    } else {
+      overlayFeatuerPoINavn.innerHTML = 'PoI: ' + clickedFeaturePoINavn;
+    }  
+    
+    if (typeof clickedFeatureRuteNavn === 'undefined') {
+    } else {
+ 
+      overlayFeatuerRuteNavn.innerHTML = 'Rute: ' + clickedFeatureRuteNavn;
+    }  
+
+    if (typeof clickedFeaturePatruljer === 'undefined') {
+    } else {
+      overlayFeatuerPatruljer.innerHTML = '(Patruljer: ' + clickedFeaturePatruljer + ')';
+    } 
+
+    if (typeof clickedFeaturePatruljeNavn === 'undefined') {
+    } else {
+      overlayFeatuerPatruljeNavn.innerHTML = 'Patrulje: ' + clickedFeaturePatruljeNavn;
+    }  
+
+    if (typeof clickedFeatureTrackerID === 'undefined') {
+    } else {
+      overlayFeauterTrackerID.innerHTML = '(Tracker: ' + clickedFeatureTrackerID + ')';
+    }  
+  })
+})
 
 // // Add users geolocation
 // // =====================

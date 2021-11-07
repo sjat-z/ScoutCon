@@ -22,3 +22,34 @@ html, body {
   top: 0;
   z-index: 2000;
 }
+
+/* Feature overlays (popups) */
+.overlay-container{
+  background-color: #0298d3;
+  width: 200px;
+  color: #fff;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -100px;
+}
+
+/*
+Burde alle ID benyttes som selector?: feature-postnavn, feature-poinavn, feature-rutenavn, feature-patruljer, feature-patruljenavn, feature-trackerid
+*/
+.overlay-container #feature-postnavn::after{
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+
