@@ -13,28 +13,19 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import {circular} from 'ol/geom/Polygon';
 import Control from 'ol/control/Control';
+import Circle from 'ol/geom/Circle';
 
 // Set styling constants
 // =====================
 const styleTrackers = new Style({
   stroke: new Stroke({
-    color: '#319FD3',
+    color: [206, 18, 21, 0.5],
     width: 4,
   }),
 });
 
-const stylePlan= new Style({
-  stroke: new Stroke({
-    color: '#ce0847',
-    width: 5,
-  }),
-  image: new CircleStyle({
-    radius: 8,
-    fill: new Fill({
-      color: '#990634',
-    }),
-  }),
-});
+// Set map constant
+// ================
 
 const map = new Map({
   target: 'map',
@@ -109,19 +100,74 @@ for(let baseLayerElement of baseLayerElements){
   })
 }
 
-// Set and add plan layer
-// ======================
-const plan = new VectorLayer({
+// Set and add plan layers
+// =======================
+const PoI = new VectorLayer({
   source: new VectorSource({
-    url: './data/plan1.geojson',
+    url: './data/PoI.geojson',
     format: new GeoJSON()
   }),
-  style: stylePlan,
+  style: new Style({
+    image: new CircleStyle({
+      radius: 12,
+      fill: new Fill({
+        color: [239, 109, 9, 0.5],
+      }),
+      stroke: new Stroke({
+        color: [255, 255, 255, 0.5],
+        width: 4
+      })
+    }),
+  }),
   visible: true,
-  title: 'plan'
+  title: 'PoI'
 })
 
-map.addLayer(plan);
+const Poster = new VectorLayer({
+  source: new VectorSource({
+    url: './data/Poster.geojson',
+    format: new GeoJSON()
+  }),
+  style: new Style({
+    image: new CircleStyle({
+      radius: 12,
+      fill: new Fill({
+        color: [9, 9, 255, 0.5],
+      }),
+      stroke: new Stroke({
+        color: [255, 255, 255, 0.5],
+        width: 4
+      })
+    }),
+  }),
+  visible: true,
+  title: 'Poster'
+})
+
+const Ruter = new VectorLayer({
+  source: new VectorSource({
+    url: './data/Ruter.geojson',
+    format: new GeoJSON()
+  }),
+  style: new Style({
+    stroke: new Stroke({
+      color: [186, 9, 255, 0.5],
+      width: 6
+    }),
+  }),
+  visible: true,
+  title: 'Ruter'
+})
+
+// Set and add plan layer group
+// ============================
+const planLayerGroup = new LayerGroup({
+  layers: [
+    Ruter, PoI, Poster
+  ]
+})
+
+map.addLayer(planLayerGroup);
 
 
 // Set and add tracker layers
