@@ -15,6 +15,7 @@ import {circular} from 'ol/geom/Polygon';
 import Control from 'ol/control/Control';
 import Circle from 'ol/geom/Circle';
 import { getKey } from 'ol/tilecoord';
+import Modify from 'ol/interaction/Modify';
 
 // Set styling constants
 // =====================
@@ -31,8 +32,8 @@ const styleTrackers = new Style({
 const map = new Map({
   target: 'map',
   view: new View({
-    center: [1300000, 7500000],
-    zoom: 10 
+    center: [1335000, 7490000],
+    zoom: 12 
   }),
 });
 
@@ -103,11 +104,26 @@ for(let baseLayerElement of baseLayerElements){
 
 // Set and add plan layers
 // =======================
+
+// Set geojson file paths
+const poISource = new VectorSource({
+  url: './data/PoI.geojson',
+  format: new GeoJSON()
+})
+
+const posterSource = new VectorSource({
+  url: './data/Poster.geojson',
+  format: new GeoJSON()
+})
+
+const ruterSource = new VectorSource({
+  url: './data/Ruter.geojson',
+  format: new GeoJSON()
+})
+
+// Set vectorlayers with styles
 const PoI = new VectorLayer({
-  source: new VectorSource({
-    url: './data/PoI.geojson',
-    format: new GeoJSON()
-  }),
+  source: poISource,
   style: new Style({
     image: new CircleStyle({
       radius: 12,
@@ -125,10 +141,7 @@ const PoI = new VectorLayer({
 })
 
 const Poster = new VectorLayer({
-  source: new VectorSource({
-    url: './data/Poster.geojson',
-    format: new GeoJSON()
-  }),
+  source: posterSource,
   style: new Style({
     image: new CircleStyle({
       radius: 12,
@@ -146,10 +159,7 @@ const Poster = new VectorLayer({
 })
 
 const Ruter = new VectorLayer({
-  source: new VectorSource({
-    url: './data/Ruter.geojson',
-    format: new GeoJSON()
-  }),
+  source: ruterSource,
   style: new Style({
     stroke: new Stroke({
       color: [186, 9, 255, 0.5],
@@ -160,8 +170,26 @@ const Ruter = new VectorLayer({
   title: 'Ruter'
 })
 
-// Set and add plan layer group
-// ============================
+// Add modification actions to sources (not trackers)
+map.addInteraction(
+  new Modify({
+    source: poISource,
+  })
+);
+
+map.addInteraction(
+  new Modify({
+    source: posterSource,
+  })
+);
+
+map.addInteraction(
+  new Modify({
+    source: ruterSource,
+  })
+);
+
+// Add plan layer group
 const planLayerGroup = new LayerGroup({
   layers: [
     Ruter, PoI, Poster
