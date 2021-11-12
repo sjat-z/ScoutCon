@@ -13,12 +13,15 @@
     </style>
   </head>
   <body>
-    <button onclick="document.getElementById('tools').style.display='block'" class="w3-button w3-black toggleMapSettings"><i style="font-size:24px" class="fa">&#xf013;</i></button>
+    <!-- Buttons (div-content loaded by main.js) -->
+    <div id="appendedButtons" class="buttons-container ol-unselectable ol-control">
+    </div>
+    <!-- /Buttons-->
 
-    <div id="tools" class="w3-modal">
+    <div id="gear-menu" class="w3-modal">
       <div class="w3-modal-content w3-card-4 w3-animate-zoom">
        <header class="w3-container w3-blue"> 
-        <span onclick="document.getElementById('tools').style.display='none'" 
+        <span onclick="document.getElementById('gear-menu').style.display='none'" 
         class="w3-button w3-blue w3-xlarge w3-display-topright">&times;</span>
         <h2>Værktøjer</h2>
        </header>
@@ -169,7 +172,7 @@
                
         <div class="w3-container w3-light-grey w3-padding">
           <button class="w3-button w3-right w3-white w3-border" 
-          onclick="document.getElementById('tools').style.display='none'">Luk</button>
+          onclick="document.getElementById('gear-menu').style.display='none'">Luk</button>
         </div>
       </div>
     </div> <!-- /modal -->

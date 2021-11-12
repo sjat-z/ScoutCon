@@ -15,12 +15,15 @@ html, body {
   left: .5em;
 }
 
-/* tools button */
-.toggleMapSettings {
-  position: absolute;
+/* buttons */
+.buttons-container {
   left: 3em;
-  top: 0;
-  z-index: 2000;
+  top: 8px;
+}
+
+.buttons-container button {
+  float: left;
+  margin-right: 5px;
 }
 
 /* Feature overlays (popups) */

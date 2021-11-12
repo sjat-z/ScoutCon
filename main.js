@@ -16,6 +16,7 @@ import Control from 'ol/control/Control';
 import Circle from 'ol/geom/Circle';
 import { getKey } from 'ol/tilecoord';
 import Modify from 'ol/interaction/Modify';
+import {Control, defaults as defaultControls} from 'ol/control';
 
 // Set styling constants
 // =====================
@@ -26,14 +27,67 @@ const styleTrackers = new Style({
   }),
 });
 
+// Construct tools
+// ===============
+
+class addButtons extends Control {
+
+  constructor() {
+
+    const editButton = document.createElement('button');
+    editButton.innerHTML = '<i class="fa fa-pencil"></i>';
+
+    const gearButton = document.createElement('button');
+    gearButton.innerHTML = '<i class="fa fa-gear"></i>';
+
+
+    const element = document.getElementById("appendedButtons");
+    element.appendChild(editButton);
+    element.appendChild(gearButton);
+
+    super({
+      element: element
+    });
+
+    editButton.addEventListener('click', this.toggleEdit.bind(this), false);
+    gearButton.addEventListener('click', this.displayGearMenu.bind(this), false);
+  }
+
+  toggleEdit() {
+  // Add modification actions to sources (not trackers)
+    map.addInteraction(
+      new Modify({
+        source: poISource,
+      })
+    );
+
+    map.addInteraction(
+      new Modify({
+        source: posterSource,
+      })
+    );
+
+    map.addInteraction(
+      new Modify({
+        source: ruterSource,
+      })
+    );
+  }
+
+  displayGearMenu() {
+    const gearButtenElement = document.getElementById('gear-menu');
+    gearButtenElement.style.display = 'block';
+  }
+}
+
 // Set map constant
 // ================
-
 const map = new Map({
+  controls: defaultControls().extend([new addButtons()]),
   target: 'map',
   view: new View({
     center: [1335000, 7490000],
-    zoom: 12 
+    zoom: 12,
   }),
 });
 
@@ -169,25 +223,6 @@ const Ruter = new VectorLayer({
   visible: true,
   title: 'Ruter'
 })
-
-// Add modification actions to sources (not trackers)
-map.addInteraction(
-  new Modify({
-    source: poISource,
-  })
-);
-
-map.addInteraction(
-  new Modify({
-    source: posterSource,
-  })
-);
-
-map.addInteraction(
-  new Modify({
-    source: ruterSource,
-  })
-);
 
 // Add plan layer group
 const planLayerGroup = new LayerGroup({
