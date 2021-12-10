@@ -40,10 +40,13 @@ class addButtons extends Control {
     const gearButton = document.createElement('button');
     gearButton.innerHTML = '<i class="fa fa-gear"></i>';
 
+    const saveButton = document.createElement('button');
+    saveButton.innerHTML = '<i class="fa fa-save"></i>';
 
     const element = document.getElementById("appendedButtons");
     element.appendChild(editButton);
     element.appendChild(gearButton);
+    element.appendChild(saveButton);
 
     super({
       element: element
@@ -51,6 +54,7 @@ class addButtons extends Control {
 
     editButton.addEventListener('click', this.toggleEdit.bind(this), false);
     gearButton.addEventListener('click', this.displayGearMenu.bind(this), false);
+    saveButton.addEventListener('click', this.saveEdits.bind(this), false);
   }
 
   toggleEdit() {
@@ -77,6 +81,13 @@ class addButtons extends Control {
   displayGearMenu() {
     const gearButtenElement = document.getElementById('gear-menu');
     gearButtenElement.style.display = 'block';
+  }
+
+  saveEdits() {
+    console.log("Gem knappen er klikket på - godt gået");
+    var features = posterSource.getFeatures(); 
+    var output = GeoJSON().readFeatures();
+    console.log(output);
   }
 }
 
